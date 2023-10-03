@@ -1,5 +1,6 @@
 package com.example.ktjpatuturial.controller
 
+import com.example.ktjpatuturial.domain.User
 import com.example.ktjpatuturial.domain.UserService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(private val userService: UserService) {
 
     @GetMapping("{id}")
-    fun getUser(@PathVariable id: Long): List<Any?> {
+    fun getUser(@PathVariable id: Long): User {
         return userService.getUser(id)
     }
 }
