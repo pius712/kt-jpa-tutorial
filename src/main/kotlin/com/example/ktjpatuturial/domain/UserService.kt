@@ -2,6 +2,8 @@ package com.example.ktjpatuturial.domain
 
 import com.example.ktjpatuturial.repository.PostRepository
 import com.example.ktjpatuturial.repository.UserRepository
+import com.zaxxer.hikari.HikariDataSource
+import org.springframework.jdbc.datasource.DataSourceUtils
 import org.springframework.stereotype.Service
 
 @Service
@@ -10,7 +12,11 @@ class UserService(private val userRepository: UserRepository,
 
 
     fun getUser(userId: Long): User {
+        val connection = DataSourceUtils.getConnection(HikariDataSource())
+
+        connection.rollback()
         return userRepository.getUser(userId)
+
     }
 
     fun getUserByName(name: String): User {
