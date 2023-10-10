@@ -9,8 +9,15 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/member")
 class MemberController(private val memberService: MemberService) {
 
-    @GetMapping
+    @GetMapping("/test")
     fun test(): List<MemberService.MemberDto> {
         return memberService.test();
     }
+
+    @GetMapping("/test2")
+
+    fun test2(): List<MemberService.MemberDto> {
+        return memberService.test2();
+    }
+
 }
