@@ -14,6 +14,5 @@ class OrderItem(
 
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "orders_id")
-        @JsonIgnore
         var item: Item,
 ) : BaseEntity()

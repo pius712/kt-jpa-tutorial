@@ -10,6 +10,6 @@ import jakarta.persistence.Table
 class Order(
         var name: String,
         @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-        var orderItems: MutableList<OrderItem>? = mutableListOf()
+        var orderItems: MutableList<OrderItem> = mutableListOf()
 ) : BaseEntity() {
 }

@@ -14,33 +14,21 @@ class OrderService(private val orderRepository: OrderRepository,
                    private val itemRepository: ItemRepository,
                    private val orderItemRepository: OrderItemRepository) {
 
-    fun test(): List<Order> {
+    fun test(): List<OrderDto> {
         val found = orderRepository.findAll()
-
-//        val found = orderItemRepository.findByIdOrNull(1) ?: throw RuntimeException();
-//        found.map { it.orderItems!!.map { it.item } }
-//        return found.map {
-//            println("this is ===============")
-//            it.orderItems?.map {
-//                println("that is ===============")
-//                println(it)
-//                it.item.name
-//            }
-//            it
-//        };
-        println(found);
-        for (order in found) {
-            for (items in order.orderItems!!) {
-                println(items.item.name)
-            }
+        return found.map {
+            OrderDto(it)
         }
-        return found
 
     }
-//        return found;
-//        println("after for statement")
-//        return found.map { OrderDto(it) };
-//    }
+
+
+    fun fetchJoinTest(): List<OrderDto> {
+        val found = orderRepository.findOrderWithAll();
+        return found.map {
+            OrderDto(it)
+        }
+    }
 
     @PostConstruct
     fun init() {
@@ -48,38 +36,42 @@ class OrderService(private val orderRepository: OrderRepository,
         val item2 = Item("item2")
         itemRepository.saveAll(listOf(item1, item2))
 
-        val order1 = Order("order1", null)
-        val order2 = Order("order2", null)
+        val order1 = Order("order1")
+        val order2 = Order("order2")
         orderRepository.saveAll(listOf(order1, order2))
 
 
         val orderItem = OrderItem(order1, item1)
-        val orderItem1 = OrderItem(order2, item2)
+        val orderItem1 = OrderItem(order1, item2)
+        val orderItem2 = OrderItem(order2, item1)
+        val orderItem3 = OrderItem(order2, item2)
 
-        orderItemRepository.saveAll(listOf(orderItem, orderItem1))
+        orderItemRepository.saveAll(listOf(orderItem, orderItem1, orderItem2, orderItem3))
     }
 
-}
 
-
-data class OrderDto(
-        val id: Long,
-        val name: String,
-        val orderItems: List<OrderItem>
-) {
-
-    constructor(order: Order) : this(
-            order.id!!,
-            order.name,
-            order.orderItems!!
+    class OrderDto(
+            val id: Long,
+            val name: String,
+            val orderItems: List<OrderItemDto>
     ) {
 
+        constructor(order: Order) : this(
+                order.id!!,
+                order.name,
+                order.orderItems.map { OrderItemDto(it) }
+        ) {
+
+        }
+    }
+
+    class OrderItemDto(
+            val id: Long,
+            val itemName: String
+    ) {
+
+        constructor(orderItem: OrderItem) : this(orderItem.id!!, orderItem.item.name)
     }
 }
 
-data class OrderItemDto(
-        val id: Long,
 
-        ) {
-
-}
