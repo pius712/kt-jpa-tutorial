@@ -60,11 +60,16 @@ class MemberService(private val memberRepository: MemberRepository,
     @PostConstruct
     fun init() {
         val mem1 = Member("hi")
+        val mem2 = Member("hi2")
         memberRepository.save(mem1)
+        memberRepository.save(mem2)
 
         val team1 = Team("team1", mem1)
         val team2 = Team("team2", mem1)
-        teamRepository.saveAll(listOf(team1, team2))
+        val team3 = Team("team1", mem2)
+        val team4 = Team("team2", mem2)
+        teamRepository.saveAll(listOf(team1, team2, team3,
+                team4))
 
 //        val mem2 = Member("hi")
     }

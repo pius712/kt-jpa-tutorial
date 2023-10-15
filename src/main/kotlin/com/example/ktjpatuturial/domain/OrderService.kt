@@ -59,7 +59,12 @@ class OrderService(private val orderRepository: OrderRepository,
         constructor(order: Order) : this(
                 order.id!!,
                 order.name,
-                order.orderItems.map { OrderItemDto(it) }
+                order.orderItems.map {
+                    println("=======start=======")
+                    val value = OrderItemDto(it)
+                    println("=======end=======")
+                    value
+                }
         ) {
 
         }
